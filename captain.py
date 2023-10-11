@@ -1,10 +1,10 @@
 import asyncio
-import captain_d_bot
+import discord
 from discord.ext import commands
 import requests
 
 # Create a Discord bot instance with the correct command_prefix
-intents = captain_d_bot.Intents.default()
+intents = discord.Intents.default()
 intents.members = True
 client = commands.Bot(command_prefix ='!', intents=intents)
 ctx = '3512329d56c5e41d4'
@@ -94,6 +94,6 @@ async def on_message(message):
 
     await client.process_commands(message)
 
-client.run('MTE2MTI2MjQ5NjQxODYzNTg2Ng.GjVUac._CbOHvNlVcUQDibVlr_nsyRBpk_WNbLpwPcsBU')
+client.run('MTE2MTI2MjQ5NjQxODYzNTg2Ng.GxEevv.bMw_cw799PPA156e7kuoxSg639ftZyEURWGox4')
 
 
