@@ -2,6 +2,11 @@ import asyncio
 import discord
 from discord.ext import commands
 import requests
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from the .env file
+load_dotenv()
 
 # Create a Discord bot instance with the correct command_prefix
 intents = discord.Intents.default()
@@ -94,6 +99,8 @@ async def on_message(message):
 
     await client.process_commands(message)
 
-client.run('MTE2MTI2MjQ5NjQxODYzNTg2Ng.GxEevv.bMw_cw799PPA156e7kuoxSg639ftZyEURWGox4')
+key = os.getenv("key")
+
+client.run(key)
 
 
