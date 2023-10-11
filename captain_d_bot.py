@@ -1,10 +1,10 @@
 import asyncio
-import discord_bot
+import captain_d_bot
 from discord.ext import commands
 import requests
 
 # Create a Discord bot instance with the correct command_prefix
-intents = discord_bot.Intents.default()
+intents = captain_d_bot.Intents.default()
 intents.members = True
 client = commands.Bot(command_prefix ='!', intents=intents)
 ctx = '3512329d56c5e41d4'
