@@ -16,7 +16,9 @@ load_dotenv()
 intents = discord.Intents.default()
 intents.members = True
 client = commands.Bot(command_prefix ='!', intents=intents)
-
+ctx = '3512329d56c5e41d4'
+google_api_key = 'AIzaSyDSwL4umIZ4nYVsDJU76jzxzp_fvBHvGh4'
+query = 'top five hotel in chandigarh'
 
 @client.event
 async def on_ready():
@@ -24,6 +26,8 @@ async def on_ready():
     print('--------------------------')
 
 token = os.getenv('BARD_API_KEY')
+discord_token = os.getenv('Discord_Token')
+
 if not token:
     raise ValueError("BARD_API_KEY environment variable not set")
 
@@ -43,7 +47,6 @@ def perform_search(query):
             return "No search results found."
     except ReadTimeout:
         raise ReadTimeout("Bard API request timed out")
-    
 def google_search(query):
     try:
         content = perform_search(query)
@@ -51,7 +54,6 @@ def google_search(query):
         return content
     except ReadTimeout:
         return "Bard API request timed out. Please try again."
-
     
 @client.event
 async def on_message(message):
@@ -59,7 +61,6 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    print(message.content.startswith('!google'))
     if message.content:
         query = message.content[len('!google'):].strip()
         search_results =  google_search(query)
@@ -71,8 +72,6 @@ async def on_message(message):
 
     await client.process_commands(message)
 
-key = os.getenv("key")
-
-client.run(key)
+client.run(discord_token)
 
 
