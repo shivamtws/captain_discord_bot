@@ -54,23 +54,38 @@ def google_search(query):
         return content
     except ReadTimeout:
         return "Bard API request timed out. Please try again."
-    
+
 @client.event
 async def on_message(message):
-    
-    if message.author == client.user:
-        return
-
-    if message.content:
-        query = message.content[len('!google'):].strip()
-        search_results =  google_search(query)
+    if (message.author.bot == True):
+        print("if")
+        return 
+    if  message.content.lower():
+        query = message.content
+        search_results = google_search(query)
         if search_results:
-            await message.reply(search_results)
+            await message.channel.send(search_results)
         else:
             # Handle the case where no search results are found
-            await message.reply("No search results found.")
+            await message.channel.send("No search results found.")
 
-    await client.process_commands(message)
+    await client.process_commands(message)    
+# @client.event
+# async def on_message(message):
+    
+#     if message.author == client.user:
+#         return
+
+#     if message.content:
+#         query = message.content[len('!google'):].strip()
+#         search_results =  google_search(query)
+#         if search_results:
+#             await message.reply(search_results)
+#         else:
+#             # Handle the case where no search results are found
+#             await message.reply("No search results found.")
+
+#     await client.process_commands(message)
 
 client.run(discord_token)
 
