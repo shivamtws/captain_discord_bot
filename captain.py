@@ -5,20 +5,22 @@ import requests
 from bardapi import Bard
 import bardapi
 import os
-from dotenv import load_dotenv
 from requests.exceptions import ReadTimeout
 from retrying import retry
+import openai
+from dotenv import load_dotenv
 
 load_dotenv()
 
-# cmt
+
 # Create a Discord bot instance with the correct command_prefix
 intents = discord.Intents.default()
 intents.members = True
+intents.message_content = True
 client = commands.Bot(command_prefix ='!', intents=intents)
 ctx = '3512329d56c5e41d4'
 google_api_key = 'AIzaSyDSwL4umIZ4nYVsDJU76jzxzp_fvBHvGh4'
-query = 'top five hotel in chandigarh'
+# query = 'top five hotel in chandigarh'
 
 @client.event
 async def on_ready():
@@ -70,4 +72,65 @@ async def on_message(message):
 
     await client.process_commands(message)
 
-client.run(discord_token)    
+openai.api_key = "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"
+def query(query):
+    # Generate an image from a text description
+    if query.startswith('/'):
+        response = openai.Image.create(prompt=query)
+        print('check redsponse',response.data)
+        image_url = response['data'][0]['url']
+        image_data = requests.get(image_url).content
+
+        # Save the image to a file
+        with open("image.png", "wb") as f:
+            f.write(image_data)
+        return image_data
+
+client.run(discord_token)
+
+# def google_search(query):
+#     print('inside google search query',query)
+#     data = query.split('>')
+#     query_data = data[1]
+    
+#     # google_api_key = 'AIzaSyDSwL4umIZ4nYVsDJU76jzxzp_fvBHvGh4'
+#     google_api_key = 'bgiLwrJaZFCwxdjV-TKpSQ6DymyoH5BlrWMQ4ypmtCX7oIV1xsAfEd5LlBare0OvGHzTFQ.'
+#     # Replace 'YOUR_CX' with your actual Custom Search Engine ID (CX)
+#     cx = '3512329d56c5e41d4'
+#     base_url = 'https://www.googleapis.com/customsearch/v1'
+
+#     url = f'{base_url}?key={google_api_key}&cx={cx}&q={query_data}'
+
+#     response = requests.get(url)
+#     print(response,"check response")
+#     if response.status_code == 200:
+#         data = response.json()
+#         print('inside response',data)
+#         items = data.get('items', [])
+
+#         search_results = []
+#         max_results = 3  
+#         max_title_length = 100
+
+#         for i, item in enumerate(items[:max_results], start=1):
+#             title = item.get('title', f'Hotel {i}')
+#             link = item.get('link', 'No link available')
+#             snippet = item.get('snippet', 'No snippet available')
+
+#             # Truncate titles if they exceed the maximum length
+#             if len(title) > max_title_length:
+#                 title = title[:max_title_length] + '...' 
+
+#             # result_str = f'{i}. **{title}**\n{link}\n{snippet}\n'
+#             result_str = f'{i}. {title}'
+#             search_results.append(result_str)
+
+#         # Combine the search results into a single string
+#         formatted_results = '\n'.join(search_results)
+#         return formatted_results
+#     else:
+#         return f'Error: {response.status_code}\n{response.text}'
+    
+
+
+
