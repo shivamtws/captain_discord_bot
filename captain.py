@@ -39,7 +39,7 @@ bard = Bard(token=token)
     stop_max_attempt_number=3,  # Maximum of 3 retries
 )
 def perform_search(query):
-    try:
+    try: 
         response = bard.get_answer(query)
         if response:
             return response['content']
@@ -49,6 +49,7 @@ def perform_search(query):
         raise ReadTimeout("Bard API request timed out")
 def google_search(query):
     try:
+        print('query',query)
         content = perform_search(query)
         print(content)
         return content
@@ -58,7 +59,6 @@ def google_search(query):
 @client.event
 async def on_message(message):
     if (message.author.bot == True):
-        print("if")
         return 
     if  message.content.lower():
         query = message.content
@@ -66,27 +66,8 @@ async def on_message(message):
         if search_results:
             await message.channel.send(search_results)
         else:
-            # Handle the case where no search results are found
             await message.channel.send("No search results found.")
 
-    await client.process_commands(message)    
-# @client.event
-# async def on_message(message):
-    
-#     if message.author == client.user:
-#         return
+    await client.process_commands(message)
 
-#     if message.content:
-#         query = message.content[len('!google'):].strip()
-#         search_results =  google_search(query)
-#         if search_results:
-#             await message.reply(search_results)
-#         else:
-#             # Handle the case where no search results are found
-#             await message.reply("No search results found.")
-
-#     await client.process_commands(message)
-
-client.run(discord_token)
-
-
+client.run(discord_token)    
