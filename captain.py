@@ -11,7 +11,7 @@ from retrying import retry
 
 load_dotenv()
 
-
+# cmt
 # Create a Discord bot instance with the correct command_prefix
 intents = discord.Intents.default()
 intents.members = True
