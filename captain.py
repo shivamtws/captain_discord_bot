@@ -86,9 +86,9 @@ async def on_message(message):
     print(message,"@@@@@")
     
     # if message.author.bot:
-    # "ticket" not in message.channel.name or
+    # 
 
-    if message.author.bot or  isinstance(message.channel, discord.DMChannel):
+    if message.author.bot or "ticket" not in message.channel.name or isinstance(message.channel, discord.DMChannel):
         return
     content = message.content.lower()
     if content.startswith('/generate_image'):
@@ -167,7 +167,7 @@ async def on_message(message):
 
 
 @client.event
-async def on_error(event, args, *kwargs):
+async def on_error(event, *args, **kwargs):
     exception = kwargs.get('exception', None)
     if exception and isinstance(exception, discord.errors.ConnectionClosed):
         # Handle the ConnectionClosed error
