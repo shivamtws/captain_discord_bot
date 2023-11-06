@@ -148,10 +148,11 @@ async def on_message(message):
             Entertainment: Girolamo can entertain users by telling stories, jokes, and playing games.
             Connection: Girolamo can help users connect with others by translating languages, writing letters, and generating creative content.
             Girolamo is still under development, but is learning and growing every day. Girolamo is committed to helping users in new and innovative ways.
-
-            Prompt:
-
-            User: {content}"""
+            And Please Response in English language if there is no Specific langugae is required.
+            
+            Prompt: {content}
+            """
+            
             bard_response = google_search(your_intro_prompt)
             await message.channel.send(bard_response)
             await client.process_commands(message)
