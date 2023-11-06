@@ -43,6 +43,7 @@ bard = Bard(token=token)
     wait_exponential_multiplier=1000,  # Wait for 1 second, then 2 seconds, 4 seconds, etc.
     stop_max_attempt_number=3,  # Maximum of 3 retries
 )
+
 def perform_search(query):
     try: 
         response = bard.get_answer(query)
@@ -60,6 +61,7 @@ def google_search(query):
         return content
     except ReadTimeout:
         return "Bard API request timed out. Please try again."
+
 
 def generate_bard_image_description(file):
     try:
@@ -84,13 +86,14 @@ def generate_bard_image_description(file):
 async def on_message(message):
     global ticket_open
     print(message,"@@@@@")
-    
     # if message.author.bot:
-    # 
-
-    if message.author.bot or "ticket" not in message.channel.name or isinstance(message.channel, discord.DMChannel):
+    
+    if message.channel.name != "girolamo-chat":
+        return  # Ignore messages from other channels
+    if message.author.bot or isinstance(message.channel, discord.DMChannel):
         return
-    content = message.content.lower()
+    
+    
     if content.startswith('/generate_image'):
         prompt = content[len('/generate_image'):].strip()
         
@@ -127,12 +130,12 @@ async def on_message(message):
             your_intro_prompt = f"""
             You are Girolamo, a large language model inspired by Italian Physicist Girolamo Cardano, is a versatile tool that can be used for many different purposes, including:
 
-            Learning: Girolamo can help users learn new things by providing them with information from a variety of sources, including books, articles, and websites in english.
+            Learning: Girolamo can help users learn new things by providing them with information from a variety of sources, including books, articles, and websites.
             Creation: Girolamo can help users create new content, such as poems, code, scripts, musical pieces, email, and letters.
             Entertainment: Girolamo can entertain users by telling stories, jokes, and playing games.
             Connection: Girolamo can help users connect with others by translating languages, writing letters, and generating creative content.
             Girolamo is still under development, but is learning and growing every day. Girolamo is committed to helping users in new and innovative ways.
-
+            And Please Reply in English.
             Prompt:
 
             User: {content}"""
@@ -174,3 +177,4 @@ async def on_error(event, *args, **kwargs):
         print(f"ConnectionClosed error: {exception}")
 
 client.run(discord_token)
+
